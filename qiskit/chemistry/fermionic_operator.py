@@ -85,9 +85,9 @@ class FermionicOperator(object):
                 print ('H2=',self._h2)
                 array_size = len(self._h1[0])
 #                print ('ARRAY SIZE=',array_size)
-                for i in range(array_size-1):
+                for i in range(array_size):
                     self._h1[i][i]=self._h1[i][i] -2*self._part_cons_parm*self._num_particles
-                    for j in range(array_size-1):
+                    for j in range(array_size):
                         self._h2[i][i][j][j]=self._h2[i][i][j][j] + 2*self._part_cons_parm
                 print('NOW WE HAVE CHANGED h1,h2,...')
                 print ('H1=',self._h1)

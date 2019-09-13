@@ -43,5 +43,6 @@ result = algorithm.run(backend)
 print('OPTIMISED IN ',result['num_optimizer_evals'],' STEPS')
 min_vector=result['min_vector']
 from qiskit.visualization import plot_state_city
-plot_state_city(min_vector)
+fig=plot_state_city(min_vector)
+fig.show()
 print(result['energy'])
