@@ -73,23 +73,26 @@ class FermionicOperator(object):
         self._ph_trans_shift = ph_trans_shift
         self._modes = self._h1.shape[0]
         self._map_type = None
-        if (part_cons_parm):
-            if (not num_particles):
+        self._part_cons_parm = part_cons_parm
+        self._num_particles = num_particles
+        
+        if (self._part_cons_parm):
+            if (not self._num_particles):
                 raise QiskitChemistryError('num_particles variable is required when using particle conserving constraint')
             else:
                 print('NOW WE CHANGE h1,h2,...')
                 print ('H1=',self._h1)
                 print ('H2=',self._h2)
                 array_size = len(self._h1[0])
-                print ('ARRAY SIZE=',array_size)
+#                print ('ARRAY SIZE=',array_size)
                 for i in range(array_size-1):
-                    self._h1[i][i]=self._h1[i][i] -2*part_cons_parm*num_particles
+                    self._h1[i][i]=self._h1[i][i] -2*self._part_cons_parm*self._num_particles
                     for j in range(array_size-1):
-                        self._h2[i][i][j][j]=self._h2[i][i][j][j] + 2*part_cons_parm
+                        self._h2[i][i][j][j]=self._h2[i][i][j][j] + 2*self._part_cons_parm
                 print('NOW WE HAVE CHANGED h1,h2,...')
                 print ('H1=',self._h1)
                 print ('H2=',self._h2)
-        if (num_particles and not part_cons_parm):
+        if (self._num_particles and not self._part_cons_parm):
             print('Warning! num_particles variable is required together with part_cons_parm only when using particle conserving constraint. If this is not your intention, please remove it.')
     @property
     def modes(self):
@@ -397,6 +400,11 @@ class FermionicOperator(object):
 
         if self._ph_trans_shift is not None:
             pauli_term = [self._ph_trans_shift, Pauli.from_label('I' * self._modes)]
+            pauli_list += WeightedPauliOperator(paulis=[pauli_term])
+            
+        if self._part_cons_parm is not None:
+            constraint = self._part_cons_parm*self._num_particles**2
+            pauli_term = [constraint, Pauli.from_label('I' * self._modes)]
             pauli_list += WeightedPauliOperator(paulis=[pauli_term])
 
         return pauli_list
