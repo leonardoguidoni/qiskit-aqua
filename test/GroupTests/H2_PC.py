@@ -33,7 +33,7 @@ from qiskit.chemistry.aqua_extensions.components.initial_states import HartreeFo
 init_state = HartreeFock(num_qubits, num_spin_orbitals, num_particles, two_qubit_reduction = False, qubit_mapping = map_type)
 
 # setup the variational form for VQE
-from qiskit.aqua.components.variational_forms import RYRZ
+
 var_form = RYRZ(num_qubits, initial_state=init_state)
 
 # setup and run VQE
