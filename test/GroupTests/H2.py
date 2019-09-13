@@ -1,6 +1,10 @@
 from qiskit.chemistry import FermionicOperator
 from qiskit.chemistry.drivers import PySCFDriver, UnitsType
 
+import logging
+from qiskit.chemistry import set_qiskit_chemistry_logging
+set_qiskit_chemistry_logging(logging.INFO) # DEBUG, ERROR
+
 # Use PySCF, a classical computational chemistry software package, to compute the one-body and two-body integrals in
 # molecular-orbital basis, necessary to form the Fermionic operator
 driver = PySCFDriver(atom='H .0 .0 .0; H .0 .0 0.735',
