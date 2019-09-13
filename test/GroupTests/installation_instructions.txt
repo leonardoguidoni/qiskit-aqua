@@ -1,0 +1,13 @@
+conda --upgrade conda
+conda create -n 'qiskit_camp' python=3.6
+source activate qiskit_camp
+pip install qiskit-terra
+pip install qiskit-aer
+pip install qiskit-ibmq-provider
+download github desktop
+from there git clone https://github.com/leonardoguidoni/qiskit-aqua.git
+download from github desktop (change from master to stable in github desktop and fetch origin)
+linux: git clone --branch stable https://github.com/leonardoguidoni/qiskit-aqua.git
+cd qiskit-aqua
+pip install -r requirements-dev.txt
+pip install -e .
