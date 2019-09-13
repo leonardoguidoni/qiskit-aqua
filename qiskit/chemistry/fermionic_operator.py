@@ -48,7 +48,7 @@ class FermionicOperator(object):
     - K. Setia, J. D. Whitfield, arXiv:1712.00446 (2017)
     """
 
-    def __init__(self, h1, h2=None, ph_trans_shift=None):
+    def __init__(self, h1, h2=None, ph_trans_shift=None, part_cons_parm=None,num_particles=None):
         """Constructor.
 
         This class requires the integrals stored in the 'chemist' notation
@@ -63,7 +63,9 @@ class FermionicOperator(object):
             h2 (numpy.ndarray): second-quantized fermionic two-body operator,
                                 a 4-D (NxNxNxN) tensor
             ph_trans_shift (float): energy shift caused by particle hole transformation
-        """
+            part_cons_parm (float): coefficient parameter for the additional particle conserving constraint
+            num_particles (integer): number of particles. Required only if part_cons_parm != None
+       """
         self._h1 = h1
         if h2 is None:
             h2 = np.zeros((h1.shape[0], h1.shape[0], h1.shape[0], h1.shape[0]), dtype=h1.dtype)
@@ -71,7 +73,24 @@ class FermionicOperator(object):
         self._ph_trans_shift = ph_trans_shift
         self._modes = self._h1.shape[0]
         self._map_type = None
-
+        if (part_cons_parm):
+            if (not num_particles):
+                raise QiskitChemistryError('num_particles variable is required when using particle conserving constraint')
+            else:
+                print('NOW WE CHANGE h1,h2,...')
+                print ('H1=',self._h1)
+                print ('H2=',self._h2)
+                array_size = len(self._h1[0])
+                print ('ARRAY SIZE=',array_size)
+                for i in range(array_size-1):
+                    self._h1[i][i]=self._h1[i][i] -2*part_cons_parm*num_particles
+                    for j in range(array_size-1):
+                        self._h2[i][i][j][j]=self._h2[i][i][j][j] + 2*part_cons_parm
+                print('NOW WE HAVE CHANGED h1,h2,...')
+                print ('H1=',self._h1)
+                print ('H2=',self._h2)
+        if (num_particles and not part_cons_parm):
+            print('Warning! num_particles variable is required together with part_cons_parm only when using particle conserving constraint. If this is not your intention, please remove it.')
     @property
     def modes(self):
         """Getter of modes."""
