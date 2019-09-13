@@ -12,10 +12,10 @@ num_particles = molecule.num_alpha + molecule.num_beta
 num_spin_orbitals = molecule.num_orbitals * 2
 
 # Build the qubit operator, which is the input to the VQE algorithm in Aqua
-ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals, part_cons_parm=0.0, num_particles=num_particles)
-map_type = 'PARITY'
+ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals)
+map_type = 'jordan_wigner'
 qubitOp = ferOp.mapping(map_type)
-qubitOp = qubitOp.two_qubit_reduced_operator(num_particles)
+#qubitOp = qubitOp.two_qubit_reduced_operator(num_particles)
 num_qubits = qubitOp.num_qubits
 for pauli in qubitOp.paulis:
    print (pauli[0],str(pauli[1]))
@@ -30,7 +30,7 @@ optimizer = L_BFGS_B()
 
 # setup the initial state for the variational form
 from qiskit.chemistry.aqua_extensions.components.initial_states import HartreeFock
-init_state = HartreeFock(num_qubits, num_spin_orbitals, num_particles)
+init_state = HartreeFock(num_qubits, num_spin_orbitals, num_particles, two_qubit_reduction = False, qubit_mapping = map_type)
 
 # setup the variational form for VQE
 from qiskit.aqua.components.variational_forms import RYRZ

@@ -406,7 +406,7 @@ class FermionicOperator(object):
             constraint = self._part_cons_parm*self._num_particles**2
             pauli_term = [constraint, Pauli.from_label('I' * self._modes)]
             pauli_list += WeightedPauliOperator(paulis=[pauli_term])
-
+       
         return pauli_list
 
     @staticmethod
