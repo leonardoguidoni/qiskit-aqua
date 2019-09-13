@@ -20,6 +20,7 @@ from .qiskit_chemistry_problem import ChemistryProblem
 from .qiskit_chemistry import (QiskitChemistry, run_experiment, run_driver_to_json)
 from .fermionic_operator import FermionicOperator
 from .mp2info import MP2Info
+from .energy_evaluation import EnergyEvaluation
 from ._logging import (get_logging_level,
                        build_logging_config,
                        set_logging_config,
@@ -38,4 +39,5 @@ __all__ = ['QiskitChemistryError',
            'build_logging_config',
            'set_logging_config',
            'get_qiskit_chemistry_logging',
-           'set_qiskit_chemistry_logging']
+           'set_qiskit_chemistry_logging',
+           'EnergyEvaluation']
