@@ -30,7 +30,7 @@ backend = Aer.get_backend('statevector_simulator')
 
 # setup a classical optimizer for VQE
 from qiskit.aqua.components.optimizers import L_BFGS_B
-optimizer = L_BFGS_B()
+optimizer = L_BFGS_B(epsilon=1e-8,maxiter=10000)
 
 # setup the initial state for the variational form
 from qiskit.chemistry.aqua_extensions.components.initial_states import HartreeFock
@@ -41,8 +41,9 @@ from qiskit.aqua.components.variational_forms import RYRZ
 var_form = RYRZ(num_qubits, initial_state=init_state)
 
 # setup and run VQE
+import numpy
 from qiskit.aqua.algorithms import VQE
-algorithm = VQE(qubitOp, var_form, optimizer)
+algorithm = VQE(qubitOp, var_form, optimizer,initial_point=numpy.zeros(var_form.num_parameters))
 result = algorithm.run(backend)
 print('OPTIMISED IN ',result['num_optimizer_evals'],' STEPS')
 min_vector=result['min_vector']

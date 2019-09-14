@@ -28,6 +28,7 @@ from .qp_solver import optimize_svm
 from .circuit_factory import CircuitFactory
 from .circuit_cache import CircuitCache
 from .backend_utils import has_ibmq, has_aer
+from .print_vector import PrintVector
 
 __all__ = [
     'tensorproduct',
@@ -54,4 +55,5 @@ __all__ = [
     'CircuitCache',
     'has_ibmq',
     'has_aer',
+    'PrintVector',
 ]
