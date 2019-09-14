@@ -24,7 +24,7 @@ if(DRIVER == 'PySCF'):
     if(MOLECULE == 'H2sto3g'):
         driver = PySCFDriver(atom='H .0 .0 .0; H .0 .0 0.735', unit=UnitsType.ANGSTROM, basis='sto3g')
     if(MOLECULE == 'HeH+'):
-        driver = PySCFDriver(atoms='He .0 .0 .0; H .0 .0 '+ str(DISTANCE) +' ', unit=UnitsType.ANGSTROM,charge=1,spin=1,basis='6-31g')
+        driver = PySCFDriver(atom='He .0 .0 .0; H .0 .0 '+ str(DISTANCE) +' ', unit=UnitsType.ANGSTROM,charge=1,spin=0,basis='6-31g')
 
 if(DRIVER == 'PyQuante'):
     if(MOLECULE == 'H2sto3g'):

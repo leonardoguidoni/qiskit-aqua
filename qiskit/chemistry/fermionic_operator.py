@@ -80,18 +80,18 @@ class FermionicOperator(object):
             if (not self._num_particles):
                 raise QiskitChemistryError('num_particles variable is required when using particle conserving constraint')
             else:
-                print('NOW WE CHANGE h1,h2,...')
-                print ('H1=',self._h1)
-                print ('H2=',self._h2)
+ #               print('NOW WE CHANGE h1,h2,...')
+ #               print ('H1=',self._h1)
+ #               print ('H2=',self._h2)
                 array_size = len(self._h1[0])
 #                print ('ARRAY SIZE=',array_size)
                 for i in range(array_size):
                     self._h1[i][i]=self._h1[i][i] -2*self._part_cons_parm*self._num_particles
                     for j in range(array_size):
                         self._h2[i][i][j][j]=self._h2[i][i][j][j] + 2*self._part_cons_parm
-                print('NOW WE HAVE CHANGED h1,h2,...')
-                print ('H1=',self._h1)
-                print ('H2=',self._h2)
+#                print('NOW WE HAVE CHANGED h1,h2,...')
+#                print ('H1=',self._h1)
+#                print ('H2=',self._h2)
         if (self._num_particles and not self._part_cons_parm):
             print('Warning! num_particles variable is required together with part_cons_parm only when using particle conserving constraint. If this is not your intention, please remove it.')
     @property
