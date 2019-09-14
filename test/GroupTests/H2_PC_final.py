@@ -51,7 +51,7 @@ backend = Aer.get_backend('statevector_simulator')
 
 # setup a classical optimizer for VQE
 from qiskit.aqua.components.optimizers import L_BFGS_B
-optimizer = L_BFGS_B(maxfun=10000,maxiter=150000)
+optimizer = L_BFGS_B(maxfun=10000,maxiter=3500)
 
 # setup the initial state for the variational form
 from qiskit.chemistry.aqua_extensions.components.initial_states import HartreeFock
