@@ -9,7 +9,10 @@ from qiskit.chemistry import set_qiskit_chemistry_logging
 set_qiskit_chemistry_logging(logging.INFO)
 
 DRIVER = 'PySCF'
-MOLECULE = 'H2sto3g'
+MOLECULE = 'HeH+'
+DISTANCE = 1.2
+CONSTRAINT = 1.0
+INITIAL_POINT = 'random' 
 
 
 class BasisType(Enum):
@@ -20,11 +23,14 @@ class BasisType(Enum):
 if(DRIVER == 'PySCF'):
     if(MOLECULE == 'H2sto3g'):
         driver = PySCFDriver(atom='H .0 .0 .0; H .0 .0 0.735', unit=UnitsType.ANGSTROM, basis='sto3g')
+    if(MOLECULE == 'HeH+'):
+        driver = PySCFDriver(atoms='He .0 .0 .0; H .0 .0 '+ str(DISTANCE) +' ', unit=UnitsType.ANGSTROM,charge=1,spin=1,basis='6-31g')
 
 if(DRIVER == 'PyQuante'):
     if(MOLECULE == 'H2sto3g'):
         driver = PyQuanteDriver(atoms='H .0 .0 .0; H .0 .0 0.735',charge=0,spin=0,basis='sto3g')
-#    driver = PyQuanteDriver(atoms='He .0 .0 .0; H .0 .0 1.2', charge=1,multiplicity=1,basis=BasisType.B631G)
+    if(MOLECULE == 'HeH+'):
+        driver = PyQuanteDriver(atoms='He .0 .0 .0; H .0 .0 '+ str(DISTANCE) +' ', charge=1,multiplicity=1,basis=BasisType.B631G)
 #driver = PyQuanteDriver(atoms='H .0 .0 .0; H .0 .0 0.735', basis=BasisType.BSTO3G)
 
 molecule = driver.run()
@@ -32,7 +38,7 @@ num_particles = molecule.num_alpha + molecule.num_beta
 num_spin_orbitals = molecule.num_orbitals * 2
 
 # Build the qubit operator, which is the input to the VQE algorithm in Aqua
-part_cons_parm=0.2
+part_cons_parm=CONSTRAINT
 ferOp = FermionicOperator(h1=molecule.one_body_integrals, h2=molecule.two_body_integrals, part_cons_parm=part_cons_parm, num_particles=num_particles)
 map_type = 'jordan_wigner'
 qubitOp = ferOp.mapping(map_type)
@@ -53,9 +59,11 @@ init_state = HartreeFock(num_qubits, num_spin_orbitals, num_particles,two_qubit_
 
 # setup the variational form for VQE
 from qiskit.aqua.components.variational_forms import RYRZ
-var_form = RYRZ(num_qubits, initial_state=init_state, depth=3)
-#initial_point = numpy.zeros(var_form.num_parameters)
-initial_point = None
+var_form = RYRZ(num_qubits, initial_state=init_state, depth=2)
+if (INITIAL_POINT == 'random'):
+    initial_point = None
+if (INITIAL_POINT == 'HF'):
+    initial_point = numpy.zeros(var_form.num_parameters)
 
 # setup and run VQE
 from qiskit.aqua.algorithms import VQE
