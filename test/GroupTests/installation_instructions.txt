@@ -1,6 +1,7 @@
 conda --upgrade conda
 conda create -n 'qiskit_camp' python=3.6
 source activate qiskit_camp
+conda install -c rpmuller pyquante2
 pip install qiskit-terra
 pip install qiskit-aer
 pip install qiskit-ibmq-provider

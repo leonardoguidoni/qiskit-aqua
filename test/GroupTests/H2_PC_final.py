@@ -8,7 +8,7 @@ import logging
 from qiskit.chemistry import set_qiskit_chemistry_logging
 set_qiskit_chemistry_logging(logging.INFO)
 
-DRIVER = 'PySCF'
+DRIVER = 'PyQuante'
 MOLECULE = 'HeH+'
 DISTANCE = 1.2
 CONSTRAINT = 1.0
